@@ -149,3 +149,9 @@ export const getAuthData = (): SpotifyAuthData | null => {
 export const clearAuthData = () => {
   localStorage.removeItem(STORAGE_KEY);
 };
+
+// --- Helper d'accès rapide au token ---
+export const getAccessToken = (): string | null => {
+  const data = getAuthData();
+  return data?.accessToken ?? null;
+};

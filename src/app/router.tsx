@@ -8,7 +8,7 @@ import LoginPage from "../features/auth/pages/LoginPage";
 import AuthCallbackPage from "../features/auth/pages/AuthCallbackPage";
 import DashboardPage from "../features/dashboard/pages/DashboardPage";
 import BlindTestPage from "../features/blind-test/pages/BlindTestPage";
-import MoodPage from "../features/mood-playlist/pages/MoodPage";
+import MoodPage from "../features/mood-playlist/pages/MoodPlaylistPage";
 
 export default function AppRouter() {
   return (
