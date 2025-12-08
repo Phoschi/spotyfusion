@@ -12,7 +12,7 @@ const CODE_VERIFIER_KEY = "spotyfusion_code_verifier";
 
 export type SpotifyAuthData = {
   accessToken: string;
-  expiresAt: number; // timestamp ms
+  expiresAt: number;
 };
 
 /**
@@ -65,7 +65,7 @@ export const buildSpotifyLoginUrlWithPkce = async (): Promise<string> => {
 
   const params = new URLSearchParams({
     client_id: CLIENT_ID,
-    response_type: "code", // 👈 PKCE = "code"
+    response_type: "code",
     redirect_uri: REDIRECT_URI,
     scope: SCOPES.join(" "),
     code_challenge_method: "S256",
@@ -114,7 +114,7 @@ export const exchangeCodeForToken = async (code: string): Promise<void> => {
   localStorage.removeItem(CODE_VERIFIER_KEY);
 };
 
-// Gestion du token (comme avant)
+// Gestion du token
 export const saveAuthData = (
   accessToken: string,
   expiresInSeconds: number

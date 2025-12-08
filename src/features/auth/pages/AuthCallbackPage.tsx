@@ -18,7 +18,7 @@ const AuthCallbackPage: React.FC = () => {
 
       if (error) {
         console.error("Erreur retournée par Spotify:", error);
-        navigate("/", { replace: true }); // "/" = Login
+        navigate("/", { replace: true });
         return;
       }
 
@@ -31,10 +31,10 @@ const AuthCallbackPage: React.FC = () => {
       try {
         await exchangeCodeForToken(code);
         console.log("[AuthCallback] Token OK, redirection vers /dashboard");
-        navigate("/dashboard", { replace: true }); // 👈 IMPORTANT
+        navigate("/dashboard", { replace: true });
       } catch (err) {
         console.error("[AuthCallback] Erreur pendant l'échange code/token:", err);
-        navigate("/", { replace: true }); // retour login
+        navigate("/", { replace: true });
       }
     };
 
