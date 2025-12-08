@@ -1,0 +1,111 @@
+/* ========= GLOBAL ========= */
+
+.blind-test-page {
+  color: #fff;
+  padding: 32px;
+}
+
+/* ========= HEADER ========= */
+
+.blind-test-page header {
+  margin-bottom: 32px;
+}
+
+.blind-test-page h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.blind-test-page header p {
+  margin-top: 6px;
+  color: #aaa;
+  font-size: 0.95rem;
+}
+
+/* ========= SECTION ========= */
+
+.blind-test-page section h2 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+}
+
+/* ========= PLAYLIST GRID ========= */
+
+.playlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 20px;
+}
+
+/* ========= PLAYLIST CARD ========= */
+
+.playlist-card {
+  position: relative;
+  background: #1a1a1a;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.playlist-card:hover {
+  background: #222;
+  transform: translateY(-2px);
+}
+
+.playlist-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.playlist-card span {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  text-align: center;
+  color: #ddd;
+}
+
+/* ========= SELECTED ========= */
+
+.playlist-card.selected {
+  outline: 2px solid #1db954;
+}
+
+.playlist-check {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #1db954;
+  color: black;
+  font-weight: bold;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* ========= BUTTON ========= */
+
+.start-blind-test {
+  margin-top: 40px;
+  padding: 14px 22px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.start-blind-test:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
