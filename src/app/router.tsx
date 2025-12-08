@@ -5,6 +5,7 @@ import AppShell from "../features/shell/components/AppShell";
 
 // Pages
 import LoginPage from "../features/auth/pages/LoginPage";
+import AuthCallbackPage from "../features/auth/pages/AuthCallbackPage";
 import DashboardPage from "../features/dashboard/pages/DashboardPage";
 import BlindTestPage from "../features/blind-test/pages/BlindTestPage";
 import MoodPage from "../features/mood-playlist/pages/MoodPage";
@@ -14,17 +15,20 @@ export default function AppRouter() {
     <BrowserRouter>
       <Routes>
 
-        {/* Pages sans shell (auth, landing, etc.) */}
-        <Route path="/login" element={<LoginPage />} />
+        {/* Page par défaut : login */}
+        <Route path="/" element={<LoginPage />} />
 
-        {/* Pages avec shell */}
+        {/* Spotify Auth callback */}
+        <Route path="/auth/callback" element={<AuthCallbackPage />} />
+
+        {/* Pages avec shell = accès authentifié */}
         <Route element={<AppShell />}>
-          <Route path="/" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/blind-test" element={<BlindTestPage />} />
           <Route path="/mood-playlist" element={<MoodPage />} />
         </Route>
 
-        {/* Fallback 404 minimaliste */}
+        {/* 404 */}
         <Route path="*" element={<div>Page introuvable</div>} />
 
       </Routes>
