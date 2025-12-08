@@ -10,8 +10,6 @@ export default function AppShell() {
           <li><Link to="/mood">Mood Generator</Link></li>
         </ul>
       </nav>
-
-      {/* Equivalent du slide "Outlet" du cours, pages 83-84 */}
       <main>
         <Outlet />
       </main>
