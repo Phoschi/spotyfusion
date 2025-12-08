@@ -10,7 +10,6 @@ const LoginCard: React.FC<LoginCardProps> = ({ onLoginClick }) => {
   return (
     <div className="login-card">
       <div className="login-card__icon">
-        {/* cercle vert + icône note de musique en CSS ou via un SVG */}
       </div>
 
       <h1 className="login-card__title">SpotyFusion</h1>
