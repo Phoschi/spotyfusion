@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { TopArtists } from "../components/TopArtists";
 import { TopTracks } from "../components/TopTracks";
 import { RecentlyPlayed } from "../components/RecentlyPlayed";
-import { TimeRangeSelector } from "../components/TimerangeSelector";
+import { TimeRangeSelector } from "../components/TimeRangeSelector";
 import { globalBackgroundSecondary, globalFontPrimary, globalTextPrimary, globalTextSecondary } from "../../../style/globalStyles";
 
 const DashboardPage: React.FC = () => {
