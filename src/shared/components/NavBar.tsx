@@ -1,6 +1,6 @@
 // src/shared/components/NavBar.tsx
 
-import React from "react";
+import React, { type JSX } from "react";
 import { NavLink } from "react-router-dom";
 
 import {
@@ -24,31 +24,28 @@ function NavItem({ to, icon, label }: NavItemProps) {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `group relative flex items-center gap-3 p-3 transition-colors ${
-          isActive
-            ? "font-bold text-white"
-            : "text-neutral-400 hover:text-white"
+        `group relative flex items-center gap-3 p-3 transition-colors ${isActive
+          ? "font-bold text-white"
+          : "text-neutral-400 hover:text-white"
         }`
       }
     >
       {({ isActive }) => (
         <>
           <div
-            className={`${
-              isActive
+            className={`${isActive
                 ? "text-white"
                 : "text-neutral-400 group-hover:text-white"
-            }`}
+              }`}
           >
             {icon}
           </div>
 
           <span
-            className={`text-base ${
-              isActive
+            className={`text-base ${isActive
                 ? "text-white"
                 : "text-neutral-400 group-hover:text-white"
-            }`}
+              }`}
           >
             {label}
           </span>
