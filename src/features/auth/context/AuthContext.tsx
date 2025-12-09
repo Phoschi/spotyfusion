@@ -1,6 +1,9 @@
 import { createContext, useContext, useState } from "react";
 
 interface SpotifyUser {
+  premium: any;
+  name: string | undefined;
+  image: string;
   display_name?: string;
   images?: { url: string }[];
   product?: string; // premium / free
@@ -26,5 +29,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>");
+  console.log(ctx);
   return ctx;
 }
