@@ -5,7 +5,8 @@ const SPOTIFY_TOKEN_URL = "https://accounts.spotify.com/api/token";
 
 const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID as string;
 const REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI as string;
-const SCOPES = (import.meta.env.VITE_SPOTIFY_SCOPES as string)?.split(" ") ?? [];
+const SCOPES =
+  (import.meta.env.VITE_SPOTIFY_SCOPES as string)?.split(" ") ?? [];
 
 const STORAGE_KEY = "spotyfusion_auth";
 const CODE_VERIFIER_KEY = "spotyfusion_code_verifier";
@@ -105,7 +106,7 @@ export const exchangeCodeForToken = async (code: string): Promise<void> => {
     throw new Error("Failed to exchange code for token");
   }
 
-  const data = await response.json() as {
+  const data = (await response.json()) as {
     access_token: string;
     expires_in: number;
   };
@@ -115,10 +116,7 @@ export const exchangeCodeForToken = async (code: string): Promise<void> => {
 };
 
 // Gestion du token
-export const saveAuthData = (
-  accessToken: string,
-  expiresInSeconds: number
-) => {
+export const saveAuthData = (accessToken: string, expiresInSeconds: number) => {
   const expiresAt = Date.now() + expiresInSeconds * 1000;
 
   const data: SpotifyAuthData = {
@@ -150,8 +148,8 @@ export const clearAuthData = () => {
   localStorage.removeItem(STORAGE_KEY);
 };
 
-// --- Helper d'accès rapide au token ---
 export const getAccessToken = (): string | null => {
   const data = getAuthData();
   return data?.accessToken ?? null;
 };
+
