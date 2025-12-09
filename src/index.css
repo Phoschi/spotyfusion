@@ -59,7 +59,7 @@ button:focus-visible {
 
 .projectHolder {
   display: grid;
-  grid-template-columns: 0.2fr 0.8fr;
+  grid-template-columns: 20% 80%;
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;

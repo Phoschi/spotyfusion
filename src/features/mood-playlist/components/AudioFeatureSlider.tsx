@@ -31,6 +31,10 @@ export const AudioFeatureSlider: React.FC<Props> = ({
         step={0.01}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
+        style={{
+          background: `linear-gradient(to right, #1db954 0%, #1db954 ${value * 100
+            }%, #4d4d4d ${value * 100}%, #4d4d4d 100%)`,
+        }}
       />
       <p className="mp-slider-description">{description}</p>
     </div>

@@ -1,71 +1,90 @@
 /* === Layout global de la page Mood === */
 
 .mp-page {
-  min-height: 100vh;
   background: #121212;
   color: #fff;
-  padding: 32px 48px 40px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+  padding: 32px;
+  font-family: Circular, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .mp-page-header h1 {
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 8px;
+  margin-top: 0;
+  letter-spacing: -0.02em;
 }
 
 .mp-page-header p {
-  font-size: 14px;
-  color: #b3b3b3;
+  font-size: 16px;
+  color: #a7a7a7;
+  margin: 0;
 }
 
 /* 2 colonnes : caractéristiques audio / semences */
 
 .mp-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
   gap: 24px;
-  margin-top: 24px;
+  margin-top: 32px;
+  width: 100%;
+  flex: 1;
+  /* Allow growing to fill vertical space */
+  min-height: 0;
+  /* Important for scroll */
 }
 
 /* === Cards === */
 
 .mp-card {
   background: #181818;
-  border-radius: 16px;
-  padding: 24px 24px 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  padding: 24px;
 }
 
 .mp-card-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 20px;
+  font-size: 16px;
+  /* Smaller, bold title */
+  font-weight: 700;
+  margin-bottom: 24px;
+  margin-top: 0;
 }
 
 /* === Sliders audio === */
 
-.mp-slider + .mp-slider {
-  margin-top: 16px;
+.mp-slider+.mp-slider {
+  margin-top: 24px;
 }
 
 .mp-slider-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
 
 .mp-slider-label {
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 14px;
 }
 
 .mp-slider-badge {
   font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: #262626;
+  padding: 2px 8px;
+  border-radius: 12px;
+  /* Pill shape */
+  background: #fff;
+  color: #000;
+  font-weight: 700;
+  min-width: 32px;
+  text-align: center;
 }
 
 .mp-slider-input {
@@ -74,61 +93,75 @@
   appearance: none;
   height: 4px;
   border-radius: 999px;
-  background: #404040;
+  /* Rounder */
+  background: #4d4d4d;
+  /* Unfilled track color gets overridden by inline style usually */
+  /* Unfilled track color */
   outline: none;
+  margin: 0;
+  cursor: pointer;
 }
 
-/* Track */
-.mp-slider-input::-webkit-slider-runnable-track {
-  height: 4px;
-  border-radius: 999px;
-  background: #404040;
-}
-.mp-slider-input::-moz-range-track {
-  height: 4px;
-  border-radius: 999px;
-  background: #404040;
-}
-
-/* Thumb */
 .mp-slider-input::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: #1db954;
+  background: #fff;
   cursor: pointer;
-  margin-top: -6px;
-}
-.mp-slider-input::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: none;
-  background: #1db954;
-  cursor: pointer;
+  margin-top: -4px;
+  /* Center thumb on track */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s;
 }
 
+.mp-slider-input:hover::-webkit-slider-thumb {
+  transform: scale(1.2);
+  /* background: #1db954; Kept white as per usual Spotify desktop UI, but can be green */
+}
+
+/* Firefox */
+.mp-slider-input::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  border: none;
+}
+
+.mp-slider-input:hover::-moz-range-thumb {
+  transform: scale(1.2);
+}
+
+
 .mp-slider-description {
-  font-size: 12px;
-  color: #9b9b9b;
-  margin-top: 6px;
+  font-size: 11px;
+  color: #a7a7a7;
+  margin-top: 8px;
+  line-height: 1.4;
 }
 
 /* === Semences === */
 
 .mp-seed-search {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .mp-input-wrapper {
   display: flex;
+  align-items: center;
   gap: 8px;
-  background: #121212;
-  border-radius: 8px;
-  padding: 6px 8px;
-  border: 1px solid #404040;
+  background: #2a2a2a;
+  border-radius: 4px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+}
+
+.mp-input-wrapper:focus-within {
+  /* border-color: #535353; */
+  background: #333;
 }
 
 .mp-input-wrapper input {
@@ -136,73 +169,66 @@
   flex: 1;
   background: transparent;
   color: #fff;
-  font-size: 13px;
+  font-size: 14px;
+  outline: none;
 }
 
 .mp-input-wrapper input::placeholder {
-  color: #6a6a6a;
+  color: #b3b3b3;
 }
 
-.mp-input-wrapper button {
-  border: none;
-  background: #1db954;
-  color: #000;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 6px 10px;
-  border-radius: 999px;
-  cursor: pointer;
-}
-
-.mp-input-wrapper button:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
-/* Résultats de recherche */
-
+/* Résultats de recherche dropdown */
 .mp-search-results {
-  margin-top: 8px;
-  border-radius: 8px;
+  margin-top: 4px;
+  border-radius: 4px;
   overflow: hidden;
-  border: 1px solid #303030;
-  background: #181818;
+  background: #282828;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  border: none;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .mp-search-results li button {
   width: 100%;
   text-align: left;
-  padding: 8px 10px;
+  padding: 10px 12px;
   border: none;
   background: transparent;
   cursor: pointer;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .mp-search-results li button:hover {
-  background: #282828;
+  background: #3e3e3e;
 }
 
 .mp-result-title {
   display: block;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .mp-result-subtitle {
   display: block;
-  font-size: 11px;
-  color: #9b9b9b;
+  font-size: 12px;
+  color: #b3b3b3;
 }
 
 /* Genres populaires */
 
 .mp-popular-genres {
-  margin-top: 8px;
+  margin-top: 24px;
 }
 
 .mp-section-label {
-  font-size: 12px;
-  color: #b3b3b3;
-  margin-bottom: 6px;
+  font-size: 11px;
+  color: #a7a7a7;
+  margin-bottom: 12px;
+  margin-top: 0;
 }
 
 .mp-genres-chips {
@@ -212,17 +238,19 @@
 }
 
 .mp-genre-chip {
-  border-radius: 999px;
-  border: 1px solid #4a4a4a;
-  background: #181818;
+  border-radius: 16px;
+  border: 1px solid #727272;
+  background: transparent;
   color: #fff;
-  font-size: 12px;
-  padding: 4px 10px;
+  font-size: 11px;
+  padding: 6px 16px;
   cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 400;
 }
 
 .mp-genre-chip:hover:not(:disabled) {
-  background: #282828;
+  border-color: #fff;
 }
 
 .mp-genre-chip:disabled {
@@ -233,12 +261,12 @@
 /* Semences sélectionnées */
 
 .mp-selected-seeds {
-  margin-top: 16px;
+  margin-top: 24px;
 }
 
 .mp-helper {
   font-size: 12px;
-  color: #8a8a8a;
+  color: #a7a7a7;
 }
 
 .mp-seed-tags {
@@ -251,30 +279,58 @@
 .mp-seed-tag {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  border-radius: 999px;
+  gap: 6px;
+  border-radius: 16px;
   border: none;
-  padding: 4px 10px;
-  font-size: 12px;
+  padding: 6px 12px;
+  font-size: 11px;
   background: #1db954;
   color: #000;
-  cursor: pointer;
+  font-weight: 500;
+  cursor: default;
 }
 
 .mp-seed-tag-remove {
-  font-weight: 700;
-  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+.mp-seed-tag-remove:hover {
+  opacity: 0.6;
 }
 
 /* Info box */
 
 .mp-info-box {
-  margin-top: 16px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: #15492f;
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 4px;
+  background: #1f3528;
+  /* Dark green warning/info bg */
   font-size: 12px;
-  color: #b8f5d2;
+  /* Slightly bigger */
+  color: #fff;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+
+.mp-info-box svg {
+  flex-shrink: 0;
+  color: #1ed760;
+}
+
+.mp-info-box strong {
+  color: #fff;
+  font-weight: 700;
 }
 
 /* === Bouton Générer === */
@@ -284,18 +340,23 @@
 }
 
 .mp-btn-primary {
-  border-radius: 999px;
+  border-radius: 24px;
   border: none;
-  padding: 14px 32px;
-  font-size: 15px;
-  font-weight: 600;
+  padding: 12px 32px;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
   background: #fff;
   color: #000;
+  transition: transform 0.1s;
+}
+
+.mp-btn-primary:hover:not(:disabled) {
+  transform: scale(1.04);
 }
 
 .mp-btn-primary:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: default;
 }
 
@@ -306,7 +367,7 @@
 }
 
 .mp-generate-icon {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 /* === Messages === */
@@ -314,57 +375,59 @@
 .mp-error {
   margin-top: 12px;
   font-size: 13px;
-  color: #ffa6a6;
+  color: #e91429;
 }
 
 .mp-success {
   margin-top: 12px;
   font-size: 13px;
-  color: #a5ffbf;
+  color: #1ed760;
 }
 
 /* === Recommandations : état vide === */
 
 .mp-reco-empty {
-  margin-top: 32px;
-  background: #181818;
-  border-radius: 16px;
-  padding: 24px;
+  margin-top: 24px;
+  border-radius: 8px;
+  padding: 48px;
   text-align: center;
-}
-
-.mp-reco-empty h2 {
-  font-size: 20px;
-  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
 }
 
 .mp-reco-empty-inner {
-  padding: 32px 0;
   color: #b3b3b3;
 }
 
 .mp-music-icon {
-  font-size: 32px;
-  margin-bottom: 12px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 24px;
+  opacity: 0.5;
+  color: #b3b3b3;
 }
 
 .mp-reco-empty-title {
   font-size: 16px;
-  margin-bottom: 4px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #fff;
 }
 
 .mp-reco-empty-subtitle {
-  font-size: 13px;
-  color: #8a8a8a;
+  font-size: 14px;
+  color: #a7a7a7;
+  max-width: 300px;
+  margin: 0 auto;
 }
 
 /* === Recommandations : liste === */
 
 .mp-reco-section {
-  margin-top: 32px;
-  background: #181818;
-  border-radius: 16px;
-  padding: 24px;
+  margin-top: 16px;
 }
 
 .mp-reco-header {
@@ -372,40 +435,57 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  padding: 0 16px;
 }
 
 .mp-reco-header h2 {
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
 }
 
 .mp-reco-actions {
   display: flex;
-  gap: 8px;
+  gap: 16px;
   align-items: center;
 }
 
-.mp-input {
-  border-radius: 999px;
-  border: 1px solid #404040;
-  background: #121212;
+.mp-input-name {
+  background: #2a2a2a;
+  border: 1px solid transparent;
+  border-radius: 4px;
   color: #fff;
-  font-size: 13px;
-  padding: 6px 12px;
+  padding: 8px 12px;
+  font-size: 14px;
+  width: 250px;
+  outline: none;
+}
+
+.mp-input-name:focus {
+  background: #333;
+  border-color: #535353;
 }
 
 .mp-btn-secondary {
-  border-radius: 999px;
+  border-radius: 24px;
   border: none;
-  background: #1db954;
+  background: #fff;
   color: #000;
-  font-size: 13px;
-  padding: 8px 14px;
+  font-size: 14px;
+  padding: 8px 16px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mp-btn-secondary:hover:not(:disabled) {
+  transform: scale(1.04);
 }
 
 .mp-btn-secondary:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: default;
 }
 
@@ -416,59 +496,95 @@
 }
 
 .mp-reco-item {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 40px 48px 1fr 120px 60px;
+  /* Index, Image, Main (Title/Artist), Album/Generic, Duration */
+  gap: 16px;
   align-items: center;
-  padding: 8px 0;
-  border-top: 1px solid #282828;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  height: 64px;
 }
 
-.mp-reco-item:first-child {
-  border-top: none;
+.mp-reco-item:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.mp-reco-main {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.mp-reco-index {
+  color: #b3b3b3;
+  font-size: 16px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 
 .mp-reco-cover {
   width: 48px;
   height: 48px;
-  border-radius: 4px;
+  border-radius: 0;
+  /* Square as per mock */
   object-fit: cover;
+  background: #282828;
+}
+
+.mp-reco-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  gap: 4px;
 }
 
 .mp-reco-title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mp-reco-artist {
-  font-size: 12px;
+  font-size: 14px;
   color: #b3b3b3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mp-reco-meta {
-  font-size: 12px;
+  font-size: 14px;
   color: #b3b3b3;
+  text-align: right;
 }
+
+.mp-score-pill {
+  /* display: inline-flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  color: #1ed760;
+  font-size: 14px;
+  font-weight: 400;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mp-score-pill svg {
+  width: 16px;
+  height: 16px;
+}
+
 
 /* === Responsive === */
 
 @media (max-width: 900px) {
   .mp-layout {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .mp-page {
     padding-inline: 16px;
-  }
-
-  .mp-reco-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
   }
 }
