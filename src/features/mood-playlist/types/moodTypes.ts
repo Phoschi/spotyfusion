@@ -28,7 +28,10 @@ export type AudioFeatures = {
 };
 
 export type RecommendationTrack = SpotifyTrack & {
+  duration_ms: number; // Added for display
+  popularity?: number; // Added if needed
   energy?: number;
   audioFeatures?: AudioFeatures;
-  moodScore?: number;
+  matchScore?: number; // Renamed/Added to match component usage
+  moodScore?: number; // Keeping for compatibility if used elsewhere
 };
