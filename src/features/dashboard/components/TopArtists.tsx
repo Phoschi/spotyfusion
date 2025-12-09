@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ScrollableRow from "../../../shared/components/ScrollableRow";
 import { getTopArtists } from "../../../shared/services/dashboardService";
+import { globalTextPrimary } from "../../../style/globalStyles";
 
 interface Props {
   timeRange: string;
@@ -19,7 +20,7 @@ export const TopArtists: React.FC<Props> = ({ timeRange }) => {
 
   return (
     <div style={{marginTop: "30px" }}>
-      <h2 style={{ marginBottom: "20px", fontSize: "24px", fontWeight: 600 }}>
+      <h2 style={{ marginBottom: "20px", fontSize: "24px", fontWeight: 700 }}>
         Top 10 Artistes
       </h2>
 
@@ -46,18 +47,8 @@ export const TopArtists: React.FC<Props> = ({ timeRange }) => {
             />
             <p
               style={{
-                fontWeight: "bold",
-                margin: "4px 0",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: "120px",
-              }}
-            >
-              #{i + 1}
-            </p>
-            <p
-              style={{
+                ...globalTextPrimary,
+                fontSize:"14px",
                 margin: 0,
                 whiteSpace: "nowrap",
                 overflow: "hidden",
@@ -65,7 +56,7 @@ export const TopArtists: React.FC<Props> = ({ timeRange }) => {
                 maxWidth: "120px",
               }}
             >
-              {artist.name}
+               #{i + 1}. {artist.name}
             </p>
           </div>
         ))}

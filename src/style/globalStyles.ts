@@ -19,12 +19,15 @@ export const globalBackgroundSecondary = {
 
 export const globalTextPrimary = {
   color: colors.textPrimary,
+  fontFamily: fontFamily.primary,
+  fontWeight: 700,
 };
 
 export const globalTextSecondary = {
   color: colors.textSecondary,
+    fontWeight: 400,
 };
 
 export const globalFontPrimary = {
-  fontFamily: fontFamily.primary,
+    fontFamily: fontFamily.primary,
 };

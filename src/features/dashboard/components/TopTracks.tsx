@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ScrollableRow from "../../../shared/components/ScrollableRow";
 import { getTopTracks } from "../../../shared/services/dashboardService";
+import { globalTextPrimary, globalTextSecondary } from "../../../style/globalStyles";
 
 interface Props {
   timeRange: string;
@@ -18,9 +19,9 @@ export const TopTracks: React.FC<Props> = ({ timeRange }) => {
   }, [timeRange]);
 
   return (
-    <div style={{ marginTop: "30px" }}>
-      <h2 style={{ marginBottom: "20px", fontSize: "24px", fontWeight: 600 }}>
-        Top 10 Titres
+    <div style={{ marginTop: "0px" }}>
+      <h2 style={{ marginBottom: "20px", fontSize: "24px", fontWeight: 700, marginTop:"0" }}>
+        Top 10 Morceaux
       </h2>
 
       <ScrollableRow height="200px">
@@ -47,7 +48,9 @@ export const TopTracks: React.FC<Props> = ({ timeRange }) => {
 
             <p
               style={{
-                fontWeight: "bold",
+                textAlign:'left',
+                ...globalTextPrimary,
+                fontSize:"14px",
                 margin: "4px 0",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
@@ -55,13 +58,14 @@ export const TopTracks: React.FC<Props> = ({ timeRange }) => {
                 maxWidth: "120px",
               }}
             >
-              #{i + 1} — {track.name}
+              #{i + 1}. {track.name}
             </p>
 
             <p
               style={{
-                color: "gray",
-                fontSize: "14px",
+                textAlign:'left',
+                ...globalTextSecondary,
+                fontSize: "16px",
                 margin: 0,
                 whiteSpace: "nowrap",
                 overflow: "hidden",

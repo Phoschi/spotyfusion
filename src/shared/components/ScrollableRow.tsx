@@ -1,10 +1,45 @@
 import React, { useRef, useState, useEffect } from "react";
-import { ChevronRight, ChevronLeft } from "lucide-react";
 
 type ScrollableRowProps = {
   children: React.ReactNode;
   height?: string;
 };
+
+const ArrowRight = () => (
+  <svg
+    width="9"
+    height="17"
+    viewBox="0 0 9 17"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1 1L8 8.5L1 16"
+      stroke="#F1F1F1"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const ArrowLeft = () => (
+  <svg
+    width="9"
+    height="17"
+    viewBox="0 0 9 17"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M8 1L1 8.5L8 16"
+      stroke="#F1F1F1"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 export default function ScrollableRow({ children, height = "180px" }: ScrollableRowProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -60,7 +95,7 @@ export default function ScrollableRow({ children, height = "180px" }: Scrollable
 
   return (
     <div style={{ position: "relative", width: "100%", height, display: "flex", alignItems: "center" }}>
-      {/* Dégradé gauche */}
+      
       {canScrollLeft && (
         <div
           style={{
@@ -69,20 +104,18 @@ export default function ScrollableRow({ children, height = "180px" }: Scrollable
             top: 0,
             bottom: 0,
             width: "40px",
-            background: "linear-gradient(to right, rgba(24,24,24,1), rgba(24,24,24,0.5) 30%, transparent 100%)",
+            background: "linear-gradient(to right,rgba(24, 24, 24, 1) 0%, rgba(24, 24, 24, 0.85) 40%,rgba(24, 24, 24, 0.5) 70%, transparent 100% )",
             pointerEvents: "none",
           }}
         />
       )}
 
-      {/* Bouton gauche */}
       {canScrollLeft && (
-        <button onClick={() => scrollByOffset(-300)} style={{ ...buttonStyle, left: 0 }}>
-          <ChevronLeft color="#F1F1F1" size={36} />
+        <button onClick={() => scrollByOffset(-300)} style={{ ...buttonStyle, left: 0, bottom: 100 }}>
+          <ArrowLeft />
         </button>
       )}
 
-      {/* Conteneur scrollable */}
       <div
         ref={containerRef}
         style={{
@@ -91,7 +124,7 @@ export default function ScrollableRow({ children, height = "180px" }: Scrollable
           overflowY: "hidden",
           gap: "20px",
           scrollBehavior: "smooth",
-          padding: "0 20px",
+          padding: "0 0",
           height,
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -101,7 +134,6 @@ export default function ScrollableRow({ children, height = "180px" }: Scrollable
         {children}
       </div>
 
-      {/* Dégradé droit */}
       {canScrollRight && (
         <div
           style={{
@@ -110,18 +142,15 @@ export default function ScrollableRow({ children, height = "180px" }: Scrollable
             top: 0,
             bottom: 0,
             width: "40px",
-            background: "linear-gradient(to left, rgba(24,24,24,1), rgba(24,24,24,0.5) 30%, transparent 100%)",
+            background: "linear-gradient(to left,rgba(24, 24, 24, 1) 0%, rgba(24, 24, 24, 0.85) 40%,rgba(24, 24, 24, 0.5) 70%, transparent 100% )",
             pointerEvents: "none",
           }}
         />
       )}
 
-      {/* Bouton droit */}
-      {true && (
-        <button onClick={() => scrollByOffset(300)} style={{ ...buttonStyle, right: 0 }}>
-          <ChevronRight color="#F1F1F1" size={36} />
-        </button>
-      )}
+      <button onClick={() => scrollByOffset(300)} style={{ ...buttonStyle, right: 0, bottom: 100 }}>
+        <ArrowRight />
+      </button>
     </div>
   );
 }
