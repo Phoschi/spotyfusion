@@ -1,9 +1,8 @@
 // src/features/mood-playlist/components/RecommendationsList.tsx
 import React, { useState } from "react";
-import type {
-  RecommendationTrack,
-  SpotifyArtist,
-} from "../../../shared/services/spotifyMoodPlaylistService";
+import type { RecommendationTrack } from "../types/moodTypes";
+import type { SpotifyArtist } from "../../../shared/types/spotifyMoodTypes";
+import "../../../features/mood-playlist/services/spotifyMoodPlaylistService";
 type Props = {
   tracks: RecommendationTrack[];
   onSavePlaylist: (name: string) => void;

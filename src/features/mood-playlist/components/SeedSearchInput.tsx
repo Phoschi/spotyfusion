@@ -1,6 +1,7 @@
 // src/features/mood-playlist/components/SeedSearchInput.tsx
 import React, { useState } from "react";
-import type { SearchResultItem } from "../../../shared/services/spotifyMoodPlaylistService";
+import type { SearchResultItem } from "../types/moodTypes";
+
 
 type Props = {
   onSearch: (query: string) => void;

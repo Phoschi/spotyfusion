@@ -1,13 +1,11 @@
 // src/features/mood-playlist/hooks/useMoodPlaylist.ts
 import { useCallback, useState } from "react";
-import {
-  spotifyMoodPlaylistService,
-} from "../../../shared/services/spotifyMoodPlaylistService";
+import { spotifyMoodPlaylistService } from "../services/spotifyMoodPlaylistService";
 import type {
   RecommendationTrack,
   RecommendationsParams,
   SearchResultItem,
-} from "../../../shared/services/spotifyMoodPlaylistService";
+} from "../types/moodTypes";
 
 export type AudioFeaturesState = {
   danceability: number;

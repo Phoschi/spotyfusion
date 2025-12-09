@@ -1,9 +1,9 @@
 // src/features/mood-playlist/components/SeedSelectorPanel.tsx
 import React from "react";
 import type { Seed } from "../hooks/useMoodPlaylist";
-import type { SearchResultItem } from "../../../shared/services/spotifyMoodPlaylistService";
-import { SeedTag } from "./SeedTag";
+import type { SearchResultItem } from "../types/moodTypes";
 import { SeedSearchInput } from "./SeedSearchInput";
+import { SeedTag } from "./SeedTag";
 
 type Props = {
   seeds: Seed[];
