@@ -153,3 +153,31 @@ export const getAccessToken = (): string | null => {
   return data?.accessToken ?? null;
 };
 
+export const getUserProfile = async (): Promise<any | null> => {
+  const token = getAuthData()?.accessToken;
+
+  if (!token) return null;
+
+  try {
+    const res = await fetch("https://api.spotify.com/v1/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      console.error(
+        "Erreur récupération du profil Spotify :",
+        await res.text()
+      );
+      return null;
+    }
+
+    const data = await res.json();
+    return data; // <- retourne le user complet
+  } catch (err) {
+    console.error("Erreur récupération du profil Spotify :", err);
+    return null;
+  }
+};
+
