@@ -71,93 +71,130 @@ async function getRecommendations(
     if (error?.status === 404) {
       console.warn("Fallback: /recommendations inaccessible -> /search");
 
-      const fallbackQueryParts: string[] = [];
-
-      if (params.seed_genres?.length) {
-        fallbackQueryParts.push(`genre:${params.seed_genres[0]}`);
-      }
-
-      if (params.seed_artists?.length) {
-        const artistId = params.seed_artists[0];
-        const artistName = await getArtistNameById(artistId);
-        if (artistName) {
-          fallbackQueryParts.push(`artist:${artistName}`);
-        }
-      }
-
       const moodTokens = buildMoodTokensFromParams(params);
       console.log("[Mood] tokens depuis sliders:", moodTokens);
-
-      if (moodTokens.length) {
-        fallbackQueryParts.push(moodTokens.join(" "));
-      }
-
-      const searchQuery =
-        fallbackQueryParts.length > 0 ? fallbackQueryParts.join(" ") : "mood";
-
-      console.log("[Mood] search query envoyée à /search:", searchQuery);
 
       type SpotifySearchTracksResponse = {
         tracks: { items: SpotifyTrack[] };
       };
 
-      // 1) Query complète (genre + artiste + mood tokens)
-      const search = await fetchSpotify<SpotifySearchTracksResponse>(
-        `/search?q=${encodeURIComponent(
-          searchQuery
-        )}&type=track&limit=${params.limit ?? 30}`
-      );
+      const limit = params.limit ?? 30;
+      const primaryGenre = params.seed_genres?.[0];
 
-      let tracks = search.tracks.items;
-      console.log(
-        "[Mood] nb de titres récupérés via /search (query complète):",
-        tracks.length
-      );
-
-      // 2) Si rien, query simplifiée (sans tokens mood)
-      if (!tracks.length) {
-        console.warn(
-          "[Mood] 0 titres pour la query complète, fallback sur une query simplifiée"
-        );
-
-        const simpleQueryParts: string[] = [];
-
-        if (params.seed_genres?.length) {
-          simpleQueryParts.push(`genre:${params.seed_genres[0]}`);
-        }
-
-        if (params.seed_artists?.length) {
-          const artistId = params.seed_artists[0];
+      // On récupère jusqu'à 2 artistes pour varier un peu plus
+      const artistNames: string[] = [];
+      if (params.seed_artists?.length) {
+        for (const artistId of params.seed_artists.slice(0, 2)) {
           const artistName = await getArtistNameById(artistId);
           if (artistName) {
-            simpleQueryParts.push(`artist:${artistName}`);
+            artistNames.push(artistName);
           }
         }
-
-        const simpleQuery =
-          simpleQueryParts.length > 0 ? simpleQueryParts.join(" ") : "mood";
-
-        console.log(
-          "[Mood] query simplifiée envoyée à /search:",
-          simpleQuery
-        );
-
-        const relaxedSearch = await fetchSpotify<SpotifySearchTracksResponse>(
-          `/search?q=${encodeURIComponent(
-            simpleQuery
-          )}&type=track&limit=${params.limit ?? 30}`
-        );
-
-        tracks = relaxedSearch.tracks.items;
-        console.log(
-          "[Mood] nb de titres récupérés via /search (query simplifiée):",
-          tracks.length
-        );
       }
 
-      return rankTracksByAudioFeatures(tracks, params);
+      const moodPhrase = moodTokens.join(" ");
+
+      // Construction de plusieurs queries fallback
+      const baseQueries: string[] = [];
+
+      if (primaryGenre && artistNames.length) {
+        baseQueries.push(
+          `genre:${primaryGenre} artist:${artistNames[0]} ${moodPhrase}`.trim()
+        );
+        if (artistNames[1]) {
+          baseQueries.push(
+            `genre:${primaryGenre} artist:${artistNames[1]} ${moodPhrase}`.trim()
+          );
+        }
+      }
+
+      if (primaryGenre && !baseQueries.length) {
+        baseQueries.push(`genre:${primaryGenre} ${moodPhrase}`.trim());
+      }
+
+      if (!primaryGenre && artistNames.length) {
+        baseQueries.push(
+          `artist:${artistNames[0]} ${moodPhrase}`.trim()
+        );
+        if (artistNames[1]) {
+          baseQueries.push(
+            `artist:${artistNames[1]} ${moodPhrase}`.trim()
+          );
+        }
+      }
+
+      if (!baseQueries.length) {
+        baseQueries.push(moodPhrase || "mood");
+      }
+
+      console.log(
+        "[Mood] fallback queries envoyées à /search:",
+        baseQueries
+      );
+
+      const collected: SpotifyTrack[] = [];
+      const seenTrackIds = new Set<string>();
+
+      // Cap sur la limite Spotify (50 max pour /search)
+      const limitPerQuery = Math.min(limit * 2, 50);
+
+      // On enchaîne plusieurs recherches tant qu'on n'a pas assez de titres
+      for (const query of baseQueries) {
+        if (collected.length >= limit) break;
+
+        const search = await fetchSpotify<SpotifySearchTracksResponse>(
+          `/search?q=${encodeURIComponent(
+            query
+          )}&type=track&limit=${limitPerQuery}`
+        );
+
+        for (const track of search.tracks.items) {
+          if (!track.id || seenTrackIds.has(track.id)) continue;
+          seenTrackIds.add(track.id);
+          collected.push(track);
+          if (collected.length >= limit) break;
+        }
+      }
+
+      // Fallback ultra générique si vraiment rien trouvé
+      if (!collected.length) {
+        console.warn(
+          "[Mood] 0 titres pour les queries avancées, fallback sur une query très générique"
+        );
+
+        // Si l'utilisateur a choisi un artiste, on privilégie une query centrée sur cet artiste
+        let genericQuery: string;
+        if (artistNames.length) {
+          // On relaxe totalement les tokens mood pour garantir des résultats de l'artiste
+          genericQuery = `artist:${artistNames[0]}`;
+        } else {
+          genericQuery = moodPhrase || "mood";
+        }
+
+        const genericLimit = Math.min(limit, 50);
+        const genericSearch = await fetchSpotify<SpotifySearchTracksResponse>(
+          `/search?q=${encodeURIComponent(
+            genericQuery
+          )}&type=track&limit=${genericLimit}`
+        );
+
+        for (const track of genericSearch.tracks.items) {
+          if (!track.id || seenTrackIds.has(track.id)) continue;
+          seenTrackIds.add(track.id);
+          collected.push(track);
+          if (collected.length >= limit) break;
+        }
+      }
+
+      console.log(
+        "[Mood] nb de titres récupérés via fallback /search (toutes queries):",
+        collected.length
+      );
+
+      return rankTracksByAudioFeatures(collected, params);
     }
 
     throw error;
   }
 }
+
