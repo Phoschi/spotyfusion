@@ -1,0 +1,115 @@
+.login-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    z-index: 1000;
+    background-size: 70% auto, cover;
+    background-image: url('../../../assets/Login/backgroundLogin.png'), linear-gradient(180deg, #1ECC5C -10%, #121212 60%);
+    background-position: top right, center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Overlay for better readability if needed, though mockup looks clean */
+.login-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    /* Slight darken of background */
+    z-index: -1;
+}
+
+/* Ensure content is above overlay */
+.login-page>* {
+    z-index: 1;
+}
+
+.login-card {
+    background-color: #181818;
+    /* Dark card background */
+    border-radius: 12px;
+    padding: 48px 32px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    color: #ffffff;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-card__icon {
+    margin-bottom: 24px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1ECC5C 0%, #1ed760 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(30, 215, 96, 0.3);
+}
+
+.login-card__logo-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.login-card__title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+    color: #ffffff;
+}
+
+.login-card__subtitle {
+    color: #a7a7a7;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0 0 32px 0;
+    padding: 0 10px;
+}
+
+/* Targeting the PrimaryButton component */
+.login-card .primary-button {
+    background-color: #1ed760;
+    color: white;
+    border-radius: 500px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 14px 32px;
+    border: none;
+    width: 100%;
+    max-width: 320px;
+    cursor: pointer;
+    transition: transform 0.1s ease, background-color 0.2s ease, filter 0.2s ease;
+    text-transform: none;
+    /* Mockup shows Title Case or Normal, not uppercase */
+}
+
+.login-card .primary-button:hover {
+    background-color: #1fdf64;
+    transform: scale(1.02);
+    filter: brightness(1.05);
+    border-color: transparent;
+    /* Reset border change from global styles if any */
+}
+
+.login-card__hint {
+    color: #6a6a6a;
+    font-size: 0.75rem;
+    margin-top: 24px;
+    margin-bottom: 0;
+}

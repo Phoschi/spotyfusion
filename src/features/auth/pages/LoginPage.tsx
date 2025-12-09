@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
-import LoginHero from "../components/LoginHero";
 import LoginCard from "../components/LoginCard";
 import { buildSpotifyLoginUrlWithPkce } from "../../../shared/services/spotifyAuthService";
+import "./LoginPage.css";
 
 const LoginPage: React.FC = () => {
   const handleLoginClick = useCallback(async () => {
@@ -16,10 +16,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="login-page">
-      <LoginHero />
-      <div className="login-page__center">
-        <LoginCard onLoginClick={handleLoginClick} />
-      </div>
+      <LoginCard onLoginClick={handleLoginClick} />
     </div>
   );
 };
