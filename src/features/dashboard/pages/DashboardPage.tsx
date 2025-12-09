@@ -10,7 +10,7 @@ const DashboardPage: React.FC = () => {
   const [timeRange, setTimeRange] = useState("short_term");
 
   return (
-    <div style={{...globalBackgroundSecondary}}>
+    <div style={{...globalBackgroundSecondary, padding:'20px'}}>
       <h1 style={{...globalTextPrimary, ...globalFontPrimary}}>Vos statistiques</h1>
       <h4 style={{...globalTextSecondary, ...globalFontPrimary}}>Découvrez vos artistes et morceaux préférés</h4>
       <TimeRangeSelector value={timeRange} onChange={setTimeRange} />
