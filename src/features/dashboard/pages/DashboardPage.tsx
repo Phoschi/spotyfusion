@@ -4,14 +4,15 @@ import { TopArtists } from "../components/TopArtists";
 import { TopTracks } from "../components/TopTracks";
 import { RecentlyPlayed } from "../components/RecentlyPlayed";
 import { TimeRangeSelector } from "../components/TimerangeSelector";
+import { globalBackgroundSecondary, globalFontPrimary, globalTextPrimary, globalTextSecondary } from "../../../style/globalStyles";
 
 const DashboardPage: React.FC = () => {
   const [timeRange, setTimeRange] = useState("short_term");
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Statistiques Spotify</h1>
-
+    <div style={{...globalBackgroundSecondary}}>
+      <h1 style={{...globalTextPrimary, ...globalFontPrimary}}>Vos statistiques</h1>
+      <h4 style={{...globalTextSecondary, ...globalFontPrimary}}>Découvrez vos artistes et morceaux préférés</h4>
       <TimeRangeSelector value={timeRange} onChange={setTimeRange} />
 
       <TopArtists timeRange={timeRange} />
