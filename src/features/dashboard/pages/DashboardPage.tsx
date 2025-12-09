@@ -10,9 +10,9 @@ const DashboardPage: React.FC = () => {
   const [timeRange, setTimeRange] = useState("short_term");
 
   return (
-    <div style={{...globalBackgroundSecondary, width:"78vw",padding:'20px'}}>
-      <h1 style={{...globalTextPrimary, ...globalFontPrimary}}>Vos statistiques</h1>
-      <h4 style={{...globalTextSecondary, ...globalFontPrimary}}>Découvrez vos artistes et morceaux préférés</h4>
+    <div style={{...globalBackgroundSecondary, width:"77vw",padding:'20px'}}>
+      <h2 style={{...globalTextPrimary, ...globalFontPrimary, fontSize:"34px", margin:"0 0"}}>Vos statistiques</h2>
+      <h4 style={{...globalTextSecondary, ...globalFontPrimary, fontSize:"16px", marginTop:"0"}}>Découvrez vos artistes et morceaux préférés</h4>
       <TimeRangeSelector value={timeRange} onChange={setTimeRange} />
 
       <TopArtists timeRange={timeRange} />

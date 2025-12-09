@@ -13,18 +13,19 @@ const OPTIONS = {
 
 export const TimeRangeSelector: React.FC<Props> = ({ value, onChange }) => {
   return (
-    <div style={{ display: "flex", gap: "12px", marginBottom: "20px" }}>
+    <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
       {Object.entries(OPTIONS).map(([key, label]) => (
         <button
           key={key}
           onClick={() => onChange(key)}
           style={{
             padding: "8px 16px",
-            borderRadius: "8px",
+            borderRadius: "500px",
             border: "none",
             cursor: "pointer",
-            color: "white",
-            backgroundColor: key === value ? "#1DB954" : "#333",
+            backgroundColor: key === value ? "#FFFFFF" : "#2A2A2A",
+            color: key === value ?  "#000000": "#FFFFFF",
+            fontSize:"14px"
           }}
         >
           {label}
