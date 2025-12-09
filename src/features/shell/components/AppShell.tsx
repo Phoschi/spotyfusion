@@ -6,7 +6,7 @@ import NavBar from "../../../shared/components/NavBar"; // Ajustez le chemin si 
 
 export default function AppShell() {
   return (
-    <div className="flex min-h-screen bg-black text-white">
+    <div className="flex min-h-screen bg-black text-white projectHolder">
       {/* 2. Remplacez la balise <nav> codée en dur par votre composant NavBar */}
       <NavBar />
 
