@@ -149,3 +149,8 @@ export const getAuthData = (): SpotifyAuthData | null => {
 export const clearAuthData = () => {
   localStorage.removeItem(STORAGE_KEY);
 };
+
+export const getAccessToken = (): string | null => {
+  const data = getAuthData();
+  return data?.accessToken ?? null;
+};
