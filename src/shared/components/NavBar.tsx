@@ -73,7 +73,7 @@ export default function NavBar(): JSX.Element {
   }, []);
 
   return (
-    <aside className="w-64 bg-[#111111] text-white min-h-screen flex flex-col justify-between p-4 relative z-10">
+    <aside style={{width:"20vw"}} className="bg-[#111111] text-white min-h-screen flex flex-col justify-between p-4 relative z-10">
       <div className="flex flex-col flex-1">
         {/* === Logo === */}
         <div className="p-2 mb-6">

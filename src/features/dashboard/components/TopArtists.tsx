@@ -18,7 +18,7 @@ export const TopArtists: React.FC<Props> = ({ timeRange }) => {
   }, [timeRange]);
 
   return (
-    <div style={{ width: "80vw", marginTop: "30px" }}>
+    <div style={{marginTop: "30px" }}>
       <h2 style={{ marginBottom: "20px", fontSize: "24px", fontWeight: 600 }}>
         Top 10 Artistes
       </h2>
