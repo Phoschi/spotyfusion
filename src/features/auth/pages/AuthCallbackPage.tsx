@@ -2,11 +2,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { exchangeCodeForToken } from "../../../shared/services/spotifyAuthService";
-import { useAuth } from "../context/AuthContext";
 
 const AuthCallbackPage: React.FC = () => {
   const navigate = useNavigate();
-  const { setAccessToken } = useAuth();
 
   useEffect(() => {
     const run = async () => {
@@ -31,19 +29,20 @@ const AuthCallbackPage: React.FC = () => {
       }
 
       try {
-        const token = await exchangeCodeForToken(code);
-        setAccessToken(token.access_token);
-
-        console.log("[AuthCallback] Token OK → redirection /dashboard");
+        await exchangeCodeForToken(code);
+        console.log("[AuthCallback] Token OK, redirection vers /dashboard");
         navigate("/dashboard", { replace: true });
       } catch (err) {
-        console.error("[AuthCallback] Erreur échange code/token:", err);
+        console.error(
+          "[AuthCallback] Erreur pendant l'échange code/token:",
+          err
+        );
         navigate("/", { replace: true });
       }
     };
 
     void run();
-  }, [navigate, setAccessToken]);
+  }, [navigate]);
 
   return (
     <div className="auth-callback-page">
