@@ -46,7 +46,8 @@ export default function NavBar(): JSX.Element {
 
   const handleLogout = () => {
     clearAuthData();
-    window.location.reload();
+    // Rediriger vers la page d'accueil (Login)
+    window.location.href = "/";
   };
 
   return (
