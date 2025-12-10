@@ -24,9 +24,10 @@ export const TimeRangeSelector: React.FC<Props> = ({ value, onChange }) => {
             border: "none",
             cursor: "pointer",
             backgroundColor: key === value ? "#FFFFFF" : "#2A2A2A",
-            color: key === value ?  "#000000": "#FFFFFF",
-            fontSize:"14px"
+            color: key === value ? "#000000" : "#FFFFFF",
+            fontSize: "14px",
           }}
+
         >
           {label}
         </button>

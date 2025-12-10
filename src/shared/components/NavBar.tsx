@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { BarChart2, Music, ListMusic, LogOut } from "lucide-react";
 import type { JSX } from "react/jsx-runtime";
 import { getUserProfile, clearAuthData } from "../services/spotifyAuthService";
+import { globalBackgroundSecondary, globalFontPrimary, globalTextPrimary } from "../../style/globalStyles";
 
 interface NavItemProps {
   to: string;
@@ -70,15 +71,15 @@ export default function NavBar(): JSX.Element {
 
         .sf-logo-section {
           padding: 0 8px;
-          margin-bottom: 32px;
+          margin-bottom: 20px;
           display: flex;
           align-items: center;
           gap: 12px;
         }
 
         .sf-logo-icon-bg {
-          width: 32px;
-          height: 32px;
+          width: 40px;
+          height: 40px;
           background-color: #1DB954; /* Spotify Green */
           border-radius: 4px;
           display: flex;
@@ -96,13 +97,13 @@ export default function NavBar(): JSX.Element {
         }
 
         .sf-user-card {
-           background-color: #1f1f1f;
+           background-color: #ffffff05;
            border-radius: 8px;
            padding: 12px;
            display: flex;
            align-items: center;
            gap: 12px;
-           margin-bottom: 32px;
+           margin-bottom: 20px;
            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
@@ -124,9 +125,13 @@ export default function NavBar(): JSX.Element {
           overflow: hidden;
         }
 
-        .sf-user-name {
-          font-size: 14px;
+       .sf-user-name {
           font-weight: 600;
+          font-style: normal; /* Semi Bold = 600 */
+          font-size: 14px;
+          line-height: 20.02px;
+          letter-spacing: -0.15px;
+          
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -158,7 +163,7 @@ export default function NavBar(): JSX.Element {
           gap: 16px;
           padding: 12px 16px;
           border-radius: 6px;
-          color: #B3B3B3;
+          color: #FFFFFFB2;
           text-decoration: none;
           transition: all 0.2s ease;
           position: relative;
@@ -171,7 +176,7 @@ export default function NavBar(): JSX.Element {
         }
 
         .sf-nav-item.active {
-          background-color: #282828;
+          background-color: #2F2F2F;
           color: white;
           font-weight: 600;
         }
@@ -224,16 +229,28 @@ export default function NavBar(): JSX.Element {
         .sf-logout-btn:hover {
           opacity: 0.8;
         }
+
+        .sf-big-divider {
+          width: 232px;
+          height: 1px;
+          opacity: 1;
+          border-bottom: 1px solid #2E2E2E;
+          margin: 0 auto 20px auto;
+        }
+
       `}</style>
 
-      <aside className="sf-navbar-container">
+      <aside className="sf-navbar-container" style={{...globalBackgroundSecondary, ...globalFontPrimary, margin:" 10px 0 10px 10px"}}>
         {/* === Logo === */}
         <div className="sf-logo-section">
           <div className="sf-logo-icon-bg">
             <Music size={20} className="text-white" />
           </div>
-          <h1 className="sf-logo-text">SpotyFusion</h1>
+          <h1 className="sf-logo-text" style={{...globalTextPrimary}}>SpotyFusion</h1>
         </div>
+
+        <div className="sf-big-divider"></div>
+
 
         {/* === Profil connecté === */}
         {user ? (
@@ -244,7 +261,7 @@ export default function NavBar(): JSX.Element {
               className="sf-avatar"
             />
             <div className="sf-user-info">
-              <p className="sf-user-name">
+              <p className="sf-user-name" style={{...globalFontPrimary}} >
                 {user.display_name ?? "Alex Martin"}
               </p>
               <span className="sf-badge-premium">
@@ -261,6 +278,9 @@ export default function NavBar(): JSX.Element {
             </div>
           </div>
         )}
+
+        <div className="sf-big-divider"></div>
+
 
         {/* === Navigation === */}
         <nav className="sf-nav-list">
@@ -281,9 +301,10 @@ export default function NavBar(): JSX.Element {
           />
         </nav>
 
+
         {/* === Footer / Logout === */}
         <div className="sf-nav-footer">
-          <div className="sf-divider" />
+        <div className="sf-big-divider"></div>
           <button onClick={handleLogout} className="sf-logout-btn">
             <div className="sf-nav-icon">
               <LogOut size={24} />
