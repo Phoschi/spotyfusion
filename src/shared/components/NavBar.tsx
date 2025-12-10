@@ -143,10 +143,9 @@ export default function NavBar(): JSX.Element {
           background-color: #1DB954;
           color: black;
           font-size: 10px;
-          font-weight: 700;
+          font-weight: 400;
           padding: 2px 8px;
           border-radius: 12px;
-          text-transform: uppercase;
           letter-spacing: 0.5px;
           align-self: flex-start;
         }
