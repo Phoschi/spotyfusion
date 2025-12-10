@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { BarChart2, Music, ListMusic, Maximize2 } from "lucide-react";
+import { BarChart2, Music, ListMusic, LogOut } from "lucide-react";
 import type { JSX } from "react/jsx-runtime";
-import { getUserProfile } from "../services/spotifyAuthService";
+import { getUserProfile, clearAuthData } from "../services/spotifyAuthService";
 
 interface NavItemProps {
   to: string;
@@ -15,40 +15,14 @@ function NavItem({ to, icon, label }: NavItemProps) {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `group relative flex items-center gap-3 p-3 transition-colors ${isActive
-          ? "font-bold text-white"
-          : "text-neutral-400 hover:text-white"
-        }`
+        `sf-nav-item ${isActive ? "active" : ""}`
       }
     >
       {({ isActive }) => (
         <>
-          <div
-            className={`${isActive
-                ? "text-white"
-                : "text-neutral-400 group-hover:text-white"
-              }`}
-          >
-            {icon}
-          </div>
-
-          <span
-            className={`text-base ${isActive
-                ? "text-white"
-                : "text-neutral-400 group-hover:text-white"
-              }`}
-          >
-            {label}
-          </span>
-
-          {isActive && (
-            <div className="absolute inset-y-0 right-0 w-full bg-black rounded-l-lg z-0">
-              <div className="absolute top-0 right-0 w-full h-full">
-                <div className="absolute -top-3 left-0 w-3 h-3 bg-transparent shadow-[1px_1px_0_0_black] rounded-br-lg" />
-                <div className="absolute -bottom-3 left-0 w-3 h-3 bg-transparent shadow-[1px_-1px_0_0_black] rounded-tr-lg" />
-              </div>
-            </div>
-          )}
+          {isActive && <div className="sf-active-indicator" />}
+          <div className="sf-nav-icon">{icon}</div>
+          <span className="sf-nav-label">{label}</span>
         </>
       )}
     </NavLink>
@@ -56,15 +30,13 @@ function NavItem({ to, icon, label }: NavItemProps) {
 }
 
 export default function NavBar(): JSX.Element {
-  // const { logout } = useAuth();
   const [user, setUser] = useState<any | null>(null);
 
   useEffect(() => {
     async function fetchUser() {
       try {
-        const profile = await getUserProfile(); // récupère /me
+        const profile = await getUserProfile();
         setUser(profile);
-        console.log("Profil utilisateur récupéré :", profile);
       } catch (err) {
         console.error("Erreur récupération utilisateur :", err);
       }
@@ -72,73 +44,253 @@ export default function NavBar(): JSX.Element {
     fetchUser();
   }, []);
 
+  const handleLogout = () => {
+    clearAuthData();
+    window.location.reload();
+  };
+
   return (
-    <aside style={{width:"20vw"}} className="bg-[#111111] text-white min-h-screen flex flex-col justify-between p-4 relative z-10">
-      <div className="flex flex-col flex-1">
+    <>
+      <style>{`
+        /* Scoped CSS for NavBar */
+        .sf-navbar-container {
+          width: 260px;
+          min-width: 260px;
+          background-color: #121212;
+          color: white;
+          min-height: 100vh; /* Allow it to grow, don't limit to viewport height */
+          display: flex;
+          flex-direction: column;
+          padding: 24px 16px;
+          box-sizing: border-box;
+          z-index: 10;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .sf-logo-section {
+          padding: 0 8px;
+          margin-bottom: 32px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .sf-logo-icon-bg {
+          width: 32px;
+          height: 32px;
+          background-color: #1DB954; /* Spotify Green */
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+        }
+
+        .sf-logo-text {
+          font-size: 20px;
+          font-weight: 700;
+          letter-spacing: -0.5px;
+          margin: 0;
+          color: white;
+        }
+
+        .sf-user-card {
+           background-color: #1f1f1f;
+           border-radius: 8px;
+           padding: 12px;
+           display: flex;
+           align-items: center;
+           gap: 12px;
+           margin-bottom: 32px;
+           box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .sf-user-card.loading {
+             opacity: 0.6;
+        }
+
+        .sf-avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+          background-color: #333;
+        }
+
+        .sf-user-info {
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+
+        .sf-user-name {
+          font-size: 14px;
+          font-weight: 600;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin: 0 0 4px 0;
+        }
+
+        .sf-badge-premium {
+          display: inline-block;
+          background-color: #1DB954;
+          color: black;
+          font-size: 10px;
+          font-weight: 700;
+          padding: 2px 8px;
+          border-radius: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          align-self: flex-start;
+        }
+
+        .sf-nav-list {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .sf-nav-item {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 12px 16px;
+          border-radius: 6px;
+          color: #B3B3B3;
+          text-decoration: none;
+          transition: all 0.2s ease;
+          position: relative;
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        .sf-nav-item:hover {
+          color: white;
+        }
+
+        .sf-nav-item.active {
+          background-color: #282828;
+          color: white;
+          font-weight: 600;
+        }
+
+        .sf-active-indicator {
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 4px;
+          height: 20px;
+          background-color: #1DB954;
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+        }
+
+        .sf-nav-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .sf-nav-footer {
+          margin-top: auto;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .sf-divider {
+          height: 1px;
+          background-color: #282828;
+          margin: 8px 16px 16px 16px;
+        }
+
+        .sf-logout-btn {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 12px 16px;
+          background: none;
+          border: none;
+          color: #e91429; /* Spotify Red error color usually, or distinct warning */
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 600;
+          transition: opacity 0.2s;
+          font-family: inherit;
+        }
+
+        .sf-logout-btn:hover {
+          opacity: 0.8;
+        }
+      `}</style>
+
+      <aside className="sf-navbar-container">
         {/* === Logo === */}
-        <div className="p-2 mb-6">
-          <div className="flex items-center gap-2 mb-6">
-            <img src="/vite.svg" alt="logo" className="w-6 h-6" />
-            <h1 className="text-xl font-bold text-[#1DB954]">SpotyFusion</h1>
+        <div className="sf-logo-section">
+          <div className="sf-logo-icon-bg">
+            <Music size={20} className="text-white" />
           </div>
-
-          {/* === Profil connecté === */}
-          {user ? (
-            <div className="flex items-center gap-3">
-              <img
-                src={
-                  user.images?.[0]?.url ??
-                  "https://dummyimage.com/40x40/cccccc/000000&text=U"
-                }
-                alt="avatar"
-                className="w-10 h-10 rounded-full"
-              />
-
-              <div className="flex flex-col">
-                <p className="font-medium text-sm">
-                  {user.display_name ?? "Utilisateur"}
-                </p>
-                <span className="text-xs text-[#1DB954] font-semibold">
-                  {user.product ?? "Free"}
-                </span>
-              </div>
-            </div>
-          ) : (
-            <p className="text-sm text-neutral-400">Chargement...</p>
-          )}
+          <h1 className="sf-logo-text">SpotyFusion</h1>
         </div>
 
+        {/* === Profil connecté === */}
+        {user ? (
+          <div className="sf-user-card">
+            <img
+              src={user.images?.[0]?.url ?? "https://dummyimage.com/40x40/cccccc/000000&text=U"}
+              alt="avatar"
+              className="sf-avatar"
+            />
+            <div className="sf-user-info">
+              <p className="sf-user-name">
+                {user.display_name ?? "Alex Martin"}
+              </p>
+              <span className="sf-badge-premium">
+                {user.product === "premium" ? "Premium" : "Free"}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="sf-user-card loading">
+            <div className="sf-avatar" />
+            <div className="sf-user-info">
+              <div style={{ height: 14, width: 80, backgroundColor: '#333', borderRadius: 4, marginBottom: 4 }} />
+              <div style={{ height: 12, width: 50, backgroundColor: '#333', borderRadius: 4 }} />
+            </div>
+          </div>
+        )}
+
         {/* === Navigation === */}
-        <nav className="flex flex-col">
+        <nav className="sf-nav-list">
           <NavItem
             to="/dashboard"
-            icon={<BarChart2 size={20} />}
+            icon={<BarChart2 size={24} />}
             label="Statistiques"
           />
           <NavItem
             to="/blind-test"
-            icon={<Music size={20} />}
+            icon={<Music size={24} />}
             label="Blind Test"
           />
           <NavItem
             to="/mood-playlist"
-            icon={<ListMusic size={20} />}
+            icon={<ListMusic size={24} />}
             label="Générateur de Playlists"
           />
         </nav>
-      </div>
 
-      {/* === Player Preview / Footer === */}
-      <div className="p-2">
-        <div className="bg-[#282828] p-3 rounded-lg flex flex-col gap-2 mb-4">
-          <div className="flex items-center gap-3">
-            <Maximize2
-              size={16}
-              className="text-neutral-400 hover:text-white cursor-pointer"
-            />
-          </div>
+        {/* === Footer / Logout === */}
+        <div className="sf-nav-footer">
+          <div className="sf-divider" />
+          <button onClick={handleLogout} className="sf-logout-btn">
+            <div className="sf-nav-icon">
+              <LogOut size={24} />
+            </div>
+            <span>Déconnexion</span>
+          </button>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 }
