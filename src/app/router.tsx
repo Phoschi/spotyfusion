@@ -1,3 +1,4 @@
+// src/app/router.tsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Shell
@@ -9,8 +10,10 @@ import AuthCallbackPage from "../features/auth/pages/AuthCallbackPage";
 
 // Pages App
 import DashboardPage from "../features/dashboard/pages/DashboardPage";
-import BlindTestPage from "../features/blind-test/pages/BlindTestPage";
 import MoodPage from "../features/mood-playlist/pages/MoodPlaylistPage";
+import { BlindTestSetupPage } from "../features/blind-test/pages/BlindTestSetupPage";
+import { BlindTestGamePage } from "../features/blind-test/pages/BlindTestGamePage";
+import { BlindTestResultsPage } from "../features/blind-test/pages/BlindTestResultsPage";
 
 export default function AppRouter() {
   return (
@@ -22,10 +25,18 @@ export default function AppRouter() {
         {/* Page callback Spotify */}
         <Route path="/auth/callback" element={<AuthCallbackPage />} />
 
-        {/* Pages après connexion (avec Shell NavBar) */}
+        {/* Pages après connexion (avec Shell + NavBar) */}
         <Route element={<AppShell />}>
           <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="blind-test" element={<BlindTestPage />} />
+
+          {/* Blind Test : 3 pages */}
+          <Route path="blind-test" element={<BlindTestSetupPage />} />
+          <Route path="blind-test/game" element={<BlindTestGamePage />} />
+          <Route
+            path="blind-test/results"
+            element={<BlindTestResultsPage />}
+          />
+
           <Route path="mood-playlist" element={<MoodPage />} />
         </Route>
 

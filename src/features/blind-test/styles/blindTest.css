@@ -1,0 +1,50 @@
+/* ==========================================================================
+   WRAPPER DU PLAYER SPOTIFY
+   - Contient l'iframe
+   - Coupe le player grâce à overflow:hidden
+========================================================================== */
+.sf-blindtest-player-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 480px; /* Tu peux ajuster selon ton design */
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden; /* Crop du player */
+}
+
+/* ==========================================================================
+   IFRAME SPOTIFY
+========================================================================== */
+.sf-blindtest-player-iframe {
+  width: 100%;
+  height: 80px; /* Hauteur standard du player embed Spotify */
+  border: none;
+  display: block;
+}
+
+/* ==========================================================================
+   MASQUE NOIR – CACHE LA PARTIE GAUCHE DU PLAYER
+   - Cache la jaquette, le titre, l’artiste
+   - Laisse visible la zone Play à droite
+   - Laisse passer les clics vers l'iframe (pointer-events:none)
+========================================================================== */
+.sf-blindtest-player-info-mask {
+  position: absolute;
+  top: 0;
+  left: 0;          /* On masque la gauche */
+  bottom: 0;
+  width: 91%;       /* Ajuste : 70–80% selon ton test */
+  background-color: #121212;
+  pointer-events: none; /* Important : clics passent à l'iframe */
+}
+
+/* ==========================================================================
+   TEXTE OPTIONNEL AU-DESSUS (SI TU VEUX AFFICHER UN MESSAGE)
+========================================================================== */
+.sf-blindtest-player-overlay-text {
+  color: #ffffff;
+  font-size: 12px;
+  opacity: 0.8;
+  text-align: center;
+  padding: 4px 0;
+}
