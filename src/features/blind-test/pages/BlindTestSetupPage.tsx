@@ -37,52 +37,64 @@ export const BlindTestSetupPage: React.FC = () => {
 
   return (
     <BlindTestLayout>
-      {/* Titre principal : même style que Dashboard */}
-      <h2
-        style={{
-          ...globalTextPrimary,
-          ...globalFontPrimary,
-          fontSize: "34px",
-          margin: "0 0",
-        }}
-      >
-        Blind Test Musical
-      </h2>
-      <h4
-        style={{
-          ...globalTextSecondary,
-          ...globalFontPrimary,
-          fontSize: "16px",
-          marginTop: "0",
-          marginBottom: "24px",
-        }}
-      >
-        Teste tes connaissances musicales en devinant les morceaux de tes
-        playlists.
-      </h4>
+      <div className="blindtest-setup">
+        {/* Titre principal + tagline (style maquette) */}
+        <header className="blindtest-setup__intro">
+          <h1
+            className="blindtest-setup__title"
+            style={{
+              ...globalTextPrimary,
+              ...globalFontPrimary,
+            }}
+          >
+            Blind Test Musical
+          </h1>
+          <p
+            className="blindtest-setup__subtitle"
+            style={{
+              ...globalTextSecondary,
+              ...globalFontPrimary,
+            }}
+          >
+            Testez vos connaissances musicales en devinant les morceaux.
+          </p>
+        </header>
 
-      {/* Sous-titre + section playlists */}
-      <BlindTestHeader
-        title="Mes playlists"
-        subtitle="Choisis une playlist pour générer ton blind test."
-      />
+        {/* Section playlists */}
+        <BlindTestHeader
+          title="Mes playlists"
+          subtitle="Choisis une playlist pour générer ton blind test."
+        />
 
-      {isLoading && <p>Chargement des playlists…</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        {isLoading && (
+          <p className="blindtest-setup__status-message">
+            Chargement des playlists…
+          </p>
+        )}
+        {error && (
+          <p className="blindtest-setup__status-message blindtest-setup__status-message--error">
+            {error}
+          </p>
+        )}
 
-      {!isLoading && !error && (
-        <>
-          <PlaylistSelectionGrid
-            playlists={playlists}
-            selectedPlaylistId={selectedPlaylist?.id ?? null}
-            onSelectPlaylist={selectPlaylist}
-          />
-          <StartBlindTestButton
-            disabled={!selectedPlaylist}
-            onClick={handleStart}
-          />
-        </>
-      )}
+        {!isLoading && !error && (
+          <>
+            <PlaylistSelectionGrid
+              playlists={playlists}
+              selectedPlaylistId={selectedPlaylist?.id ?? null}
+              onSelectPlaylist={selectPlaylist}
+            />
+
+            {/* Bouton aligné en bas à gauche comme sur la maquette */}
+            <div className="blindtest-setup__actions">
+              <StartBlindTestButton
+                disabled={!selectedPlaylist}
+                onClick={handleStart}
+              />
+            </div>
+          </>
+        )}
+      </div>
     </BlindTestLayout>
   );
 };

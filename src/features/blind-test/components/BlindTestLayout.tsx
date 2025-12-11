@@ -1,9 +1,7 @@
 // src/features/blind-test/components/BlindTestLayout.tsx
 
 import React from "react";
-import {
-  globalBackgroundSecondary,
-} from "../../../style/globalStyles";
+import { globalBackgroundSecondary } from "../../../style/globalStyles";
 import "../styles/blindTest.css";
 
 type Props = {
@@ -13,10 +11,9 @@ type Props = {
 export const BlindTestLayout: React.FC<Props> = ({ children }) => {
   return (
     <div
+      className="blindtest-layout"
       style={{
         ...globalBackgroundSecondary,
-        width: "77vw",
-        padding: "20px",
       }}
     >
       {children}

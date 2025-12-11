@@ -16,17 +16,15 @@ export const PlaylistSelectionGrid: React.FC<Props> = ({
   onSelectPlaylist,
 }) => {
   if (playlists.length === 0) {
-    return <p>Aucune playlist disponible.</p>;
+    return (
+      <p className="blindtest-setup__status-message">
+        Aucune playlist disponible.
+      </p>
+    );
   }
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
-        gap: "12px",
-      }}
-    >
+    <div className="blindtest-playlist-grid">
       {playlists.map((playlist) => (
         <PlaylistCard
           key={playlist.id}

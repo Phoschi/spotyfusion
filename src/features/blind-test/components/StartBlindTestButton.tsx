@@ -15,17 +15,22 @@ export const StartBlindTestButton: React.FC<Props> = ({
     type="button"
     disabled={disabled}
     onClick={onClick}
-    style={{
-      marginTop: "24px",
-      padding: "12px 24px",
-      borderRadius: "999px",
-      border: "none",
-      background: disabled ? "#555" : "#1db954",
-      color: "#fff",
-      fontWeight: 600,
-      cursor: disabled ? "not-allowed" : "pointer",
-    }}
+    className="blindtest-start-button"
   >
-    Commencer le Blind Test
+    <span className="blindtest-start-button__icon">
+      {/* Icône play simple en SVG pour rester propre */}
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+        className="blindtest-start-button__icon-svg"
+      >
+        <circle cx="12" cy="12" r="11" />
+        <polygon points="10,8 16,12 10,16" />
+      </svg>
+    </span>
+    <span className="blindtest-start-button__label">
+      Commencer le Blind Test
+    </span>
   </button>
 );

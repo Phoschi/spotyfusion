@@ -1,6 +1,6 @@
 // src/features/blind-test/pages/BlindTestGamePage.tsx
 
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect } from "react";
 import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import type {
   SpotifyPlaylist,
@@ -46,13 +46,6 @@ export const BlindTestGamePage: React.FC = () => {
     goToNextQuestion,
   } = useBlindTestGame(config);
 
-  const [roundStarted, setRoundStarted] = useState(false);
-
-  // Reset du round à chaque nouvelle question
-  useEffect(() => {
-    setRoundStarted(false);
-  }, [currentQuestion?.id]);
-
   // Redirection si on arrive sans config (refresh / navigation directe)
   if (!config) {
     return <Navigate to="/blind-test" replace />;
@@ -80,22 +73,16 @@ export const BlindTestGamePage: React.FC = () => {
     navigate("/blind-test", { replace: true });
   };
 
-  const handleStartRound = () => {
-    setRoundStarted(true);
-  };
-
-  // 🔹 Quand le timer arrive à 0 et qu'aucune réponse n'a été donnée,
-  //    on passe automatiquement à la question suivante.
+  // Quand le timer arrive à 0 et qu'aucune réponse n'a été donnée,
+  // on passe automatiquement à la question suivante.
   const handleTimerComplete = () => {
-    if (!roundStarted) return;
     if (!feedback) {
       goToNextQuestion();
     }
   };
 
-  // 🔹 Quand une réponse est sélectionnée, on passe automatiquement
-  //    à la question suivante après un court délai (pour laisser
-  //    le temps de voir le feedback visuel si besoin).
+  // Quand une réponse est sélectionnée, on passe automatiquement
+  // à la question suivante après un court délai.
   useEffect(() => {
     if (!feedback) return;
 
@@ -142,20 +129,16 @@ export const BlindTestGamePage: React.FC = () => {
             <AudioPreviewPlayer
               trackId={currentQuestion.track.id}
               spotifyUrl={currentQuestion.track.external_urls.spotify}
-              roundStarted={roundStarted}
-              onStartRound={handleStartRound}
               score={score}
-              onTimerComplete={handleTimerComplete} // 🔹 nouveau
+              onTimerComplete={handleTimerComplete}
             />
 
-            {/* Réponses visibles uniquement quand le round est démarré */}
-            {roundStarted && (
-              <AnswerButtonsList
-                choices={currentQuestion.choices}
-                feedback={feedback}
-                onSelect={selectAnswer}
-              />
-            )}
+            {/* Réponses visibles directement */}
+            <AnswerButtonsList
+              choices={currentQuestion.choices}
+              feedback={feedback}
+              onSelect={selectAnswer}
+            />
           </>
         )}
       </div>

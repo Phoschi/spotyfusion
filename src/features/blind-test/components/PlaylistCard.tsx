@@ -20,25 +20,29 @@ export const PlaylistCard: React.FC<Props> = ({
     <button
       type="button"
       onClick={onSelect}
-      style={{
-        border: isSelected ? "2px solid #1db954" : "1px solid #444",
-        borderRadius: "8px",
-        padding: "8px",
-        background: isSelected ? "#222" : "#111",
-        cursor: "pointer",
-        textAlign: "left",
-      }}
+      className={`blindtest-playlist-card ${
+        isSelected ? "blindtest-playlist-card--selected" : ""
+      }`}
     >
-      {coverUrl && (
-        <img
-          src={coverUrl}
-          alt={playlist.name}
-          style={{ width: "80px", height: "80px", objectFit: "cover" }}
-        />
-      )}
-      <div style={{ marginTop: "8px" }}>
-        <div>{playlist.name}</div>
-        <div style={{ fontSize: "12px", opacity: 0.7 }}>
+      <div className="blindtest-playlist-card__cover-wrapper">
+        {coverUrl && (
+          <img
+            src={coverUrl}
+            alt={playlist.name}
+            className="blindtest-playlist-card__cover"
+          />
+        )}
+
+        {isSelected && (
+          <div className="blindtest-playlist-card__check">
+            <span className="blindtest-playlist-card__check-icon">✓</span>
+          </div>
+        )}
+      </div>
+
+      <div className="blindtest-playlist-card__info">
+        <div className="blindtest-playlist-card__title">{playlist.name}</div>
+        <div className="blindtest-playlist-card__meta">
           {playlist.tracks.total} titres
         </div>
       </div>

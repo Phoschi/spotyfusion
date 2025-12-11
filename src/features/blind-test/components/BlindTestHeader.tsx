@@ -8,10 +8,10 @@ type Props = {
 };
 
 export const BlindTestHeader: React.FC<Props> = ({ title, subtitle }) => (
-  <header style={{ marginBottom: "24px" }}>
-    <h2>{title}</h2>
+  <header className="blindtest-section-header">
+    <h2 className="blindtest-section-header__title">{title}</h2>
     {subtitle && (
-      <p style={{ marginTop: "4px", opacity: 0.8 }}>{subtitle}</p>
+      <p className="blindtest-section-header__subtitle">{subtitle}</p>
     )}
   </header>
 );
