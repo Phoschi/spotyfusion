@@ -19,9 +19,9 @@ function timeAgo(date: string): string {
   const days = Math.floor(hours / 24);
 
   if (minutes < 1) return "à l’instant";
-  if (minutes < 60) return `il y a ${minutes} minutes`;
-  if (hours < 24) return `il y a ${hours} heures`;
-  return `il y a ${days} jours`;
+  if (minutes < 60) return `Il y a ${minutes} minutes`;
+  if (hours < 24) return `Il y a ${hours} heures`;
+  return `Il y a ${days} jours`;
 }
 
 // Petite icône horloge
@@ -126,7 +126,7 @@ export const RecentlyPlayed: React.FC = () => {
       }}
     >
       <ClockIcon />
-      <small>Écouté {timeAgo(first.played_at)}</small>
+      <small>{timeAgo(first.played_at)}</small>
     </div>
   </div>
 </div>
@@ -178,7 +178,7 @@ export const RecentlyPlayed: React.FC = () => {
                   }}
                 >
                   <ClockIcon />
-                  <small>Écouté {timeAgo(item.played_at)}</small>
+                  <small>{timeAgo(item.played_at)}</small>
                 </div>
 
               </div>
