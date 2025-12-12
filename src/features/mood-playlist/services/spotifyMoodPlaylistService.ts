@@ -60,6 +60,7 @@ async function getRecommendations(
     tracks: SpotifyTrack[];
   };
 
+// Première tentative: /recommendations
   try {
     const data = await fetchSpotify<SpotifyRecommendationsResponse>(
       `/recommendations?${q.toString()}`
@@ -67,7 +68,8 @@ async function getRecommendations(
 
     return rankTracksByAudioFeatures(data.tracks, params);
   } catch (error: any) {
-    // Fallback 404 -> /search
+
+// Fallback 404 -> /search
     if (error?.status === 404) {
       console.warn("Fallback: /recommendations inaccessible -> /search");
 
@@ -81,7 +83,7 @@ async function getRecommendations(
       const limit = params.limit ?? 30;
       const primaryGenre = params.seed_genres?.[0];
 
-      // On récupère jusqu'à 2 artistes pour varier un peu plus
+// Récupère jusqu'à 2 artistes
       const artistNames: string[] = [];
       if (params.seed_artists?.length) {
         for (const artistId of params.seed_artists.slice(0, 2)) {
@@ -94,7 +96,7 @@ async function getRecommendations(
 
       const moodPhrase = moodTokens.join(" ");
 
-      // Construction de plusieurs queries fallback
+// Construction de plusieurs queries fallback
       const baseQueries: string[] = [];
 
       if (primaryGenre && artistNames.length) {
@@ -134,11 +136,10 @@ async function getRecommendations(
 
       const collected: SpotifyTrack[] = [];
       const seenTrackIds = new Set<string>();
-
-      // Cap sur la limite Spotify (50 max pour /search)
+// Cap sur la limite Spotify (50 max pour /search)
       const limitPerQuery = Math.min(limit * 2, 50);
 
-      // On enchaîne plusieurs recherches tant qu'on n'a pas assez de titres
+// On enchaîne plusieurs recherches tant qu'on n'a pas assez de titres
       for (const query of baseQueries) {
         if (collected.length >= limit) break;
 
@@ -156,16 +157,15 @@ async function getRecommendations(
         }
       }
 
-      // Fallback ultra générique si vraiment rien trouvé
+// Fallback générique si rien trouvé
       if (!collected.length) {
         console.warn(
           "[Mood] 0 titres pour les queries avancées, fallback sur une query très générique"
         );
 
-        // Si l'utilisateur a choisi un artiste, on privilégie une query centrée sur cet artiste
+// Si l'utilisateur a choisi un artiste, on privilégie une query centrée sur cet artiste
         let genericQuery: string;
         if (artistNames.length) {
-          // On relaxe totalement les tokens mood pour garantir des résultats de l'artiste
           genericQuery = `artist:${artistNames[0]}`;
         } else {
           genericQuery = moodPhrase || "mood";

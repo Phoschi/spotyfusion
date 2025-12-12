@@ -148,9 +148,9 @@ export async function rankTracksByAudioFeatures(
     console.warn(
       "[Mood] Aucune audio-feature dispo, retour sans re-ranking (403 ?)"
     );
-    return uniqueTracks.slice(0, limit).map((track) => ({
-      ...track,
-    }));
+    return uniqueTracks
+      .slice(0, limit)
+      .map((track) => track as RecommendationTrack);
   }
 
   const targetDance = params.target_danceability ?? 0.5;
@@ -283,13 +283,15 @@ export async function rankTracksByAudioFeatures(
     top[j] = tmp;
   }
 
-  return top.map(({ track, moodDistance, audioFeatures }) => {
-    const rec: RecommendationTrack = {
-      ...track,
-      energy: audioFeatures?.energy,
-      audioFeatures,
-      moodScore: Number.isFinite(moodDistance) ? moodDistance : undefined,
-    };
-    return rec;
-  });
+return top.map(({ track, moodDistance, audioFeatures }) => {
+  const base = track as RecommendationTrack;
+
+  return {
+    ...base,
+    energy: audioFeatures?.energy,
+    audioFeatures,
+    moodScore: Number.isFinite(moodDistance) ? moodDistance : undefined,
+  };
+});
+
 }
